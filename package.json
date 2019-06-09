@@ -1,26 +1,30 @@
 {
-  "name": "final-project",
+  "name": "master-assignment-5",
   "version": "1.0.0",
-  "description": "Final project for the latecomers",
+  "description": "Handlebars templating",
   "main": "server.js",
-  "dependencies": {
-    "express": "^4.17.1",
-    "express-handlebars": "^3.1.0",
-    "handlebars": "^4.1.2"
-  },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "build1": "handlebars views/partials/story.handlebars -f public/story.js",
+    "prestart": "npm run build1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/osu-cs290-sp19/final-project-cs290-final-project-latecomers.git"
+    "url": "git+https://github.com/osu-cs290-sp19/master-assignment-5.git"
   },
-  "author": "Latecomers",
-  "license": "ISC",
+  "author": "",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/osu-cs290-sp19/final-project-cs290-final-project-latecomers/issues"
+    "url": "https://github.com/osu-cs290-sp19/master-assignment-5/issues"
   },
-  "homepage": "https://github.com/osu-cs290-sp19/final-project-cs290-final-project-latecomers#readme"
+  "homepage": "https://github.com/osu-cs290-sp19/master-assignment-5#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "express-handlebars": "^3.1.0",
+    "formidable": "^1.2.1",
+    "handlebars": "^4.1.2",
+    "mongodb": "^3.2.7"
+  },
+  "devDependencies": {}
 }
