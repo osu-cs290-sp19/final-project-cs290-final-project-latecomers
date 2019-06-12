@@ -1,0 +1,26 @@
+[
+	{
+        "storyUpvotes": 21,
+		"storyTitle": "Once upon a Lorem 1",
+		"storyDate": "05/14/99",
+        "storyText": "Lorem ipsum",
+        "storyAuthor": 7,
+		"storyTags": [ "#romance", "#historical" ]
+    },
+	{
+        "storyUpvotes": 51,
+		"storyTitle": "Once upon a Lorem 2",
+		"storyDate": "05/14/99",
+        "storyText": "Lorem ipsum",
+        "storyAuthor": 32,
+		"storyTags": [ "#fantasy", "#thriller" ]
+    },
+	{
+        "storyUpvotes": 3251,
+		"storyTitle": "Once upon a Lorem 3",
+		"storyDate": "05/14/99",
+        "storyText": "Lorem ipsum",
+        "storyAuthor": 754,
+		"storyTags": [ "#serious", "#teen" ]
+    }
+]	

@@ -1,0 +1,69 @@
+        <div class="flexcontainer">
+            <div class="filter-box">
+                <div class="content-box" id = "sort-box">
+                    <p class = "box-title">Sorted by:
+                        <button type="button" name="sort" class='toggle-button active'>
+                            popular
+                        </button>
+                        <button type="button" name="sort" class="toggle-button">
+                            new
+                        </button>
+                    </p>
+                </div>
+                <div class="content-box" id="tag-box">
+                    <p class="box-title">Filter Stories by Tag</p>
+                    <div class="taglist">
+                        <button type="button" name="tag" class="toggle-button active">#fantasy</button></button>
+                        <button type="button" name="tag" class="toggle-button">#HarryPotter</button>
+                        <button type="button" name="tag" class="toggle-button">#historical</button>
+                        <button type="button" name="tag" class="toggle-button">#religious</button>
+                        <button type="button" name="tag" class="toggle-button">#romance</button>
+                        <button type="button" name="tag" class="toggle-button">#teen</button>
+                        <button type="button" name="tag" class="toggle-button active">#thriller</button>
+                        <button type="button" name="tag" class="toggle-button">#plot-twist</button>
+                        <button type="button" name="tag" class="toggle-button">#StarWars</button>
+                        <button type="button" name="tag" class="toggle-button">#funny</button>
+                        <button type="button" name="tag" class="toggle-button">#serious</button>
+                        <button type="button" name="tag" class="toggle-button">#Spanish</button>
+                        <button type="button" name="tag" class="toggle-button">#rant</button>
+                        <button type="button" name="tag" class="toggle-button">#fantasy</button>
+                        <button type="button" name="tag" class="toggle-button">#HarryPotter</button>
+                        <button type="button" name="tag" class="toggle-button active">#historical</button>
+                        <button type="button" name="tag" class="toggle-button">#religious</button>
+                        <button type="button" name="tag" class="toggle-button">#romance</button>
+                        <button type="button" name="tag" class="toggle-button">#teen</button>
+                        <button type="button" name="tag" class="toggle-button">#thriller</button>
+                        <button type="button" name="tag" class="toggle-button active">#plot-twist</button>
+                        <button type="button" name="tag" class="toggle-button">#StarWars</button>
+                        <button type="button" name="tag" class="toggle-button">#funny</button>
+                        <button type="button" name="tag" class="toggle-button">#serious</button>
+                        <button type="button" name="tag" class="toggle-button">#Spanish</button>
+                        <button type="button" name="tag" class="toggle-button">#rant</button>
+                    </div>
+                </div>
+            </div>
+
+			<div id="story-container"> 
+				{{#each storyData}} 
+					{{>story}} 
+				{{/each}} 
+			</div>
+
+            <div class="content-box" id="about-box">
+                <p class = "box-title"> What is Storyboard? </p>
+                <p class = "about-text">
+                    Storyboard is a website that allows users from all over the
+                    world to write stories together, piece by piece. Lorem ipsum
+                    dolor sit amet, consectetur adipiscing elit. Cras ultrices
+                    facilisis pulvinar. Nam tincidunt nibh nec neque molestie
+                    tristique. Donec ullamcorper nibh vel volutpat placerat.
+                    Maecenas vehicula non dolor a luctus. Praesent eget ultricies
+                    quam, vel bibendum ante. Nullam sem turpis, tempus lobortis
+                    magna vel, suscipit gravida ipsum. Aliquam erat volutpat.
+                    Vivamus venenatis a turpis sed accumsan. Nullam tincidunt
+                    sapien eu finibus tincidunt. Suspendisse dui neque, dapibus
+                    id posuere sed, consectetur vitae urna. Morbi aliquet neque
+                    sit amet sem semper interdum.
+                </p>
+            </div>
+        </div>
