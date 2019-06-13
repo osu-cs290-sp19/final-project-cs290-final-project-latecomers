@@ -479,9 +479,9 @@ window.addEventListener('DOMContentLoaded', function () {
     searchInput.addEventListener('input', doSearchUpdate);
   }
 
-  var testTest = document.getElementsByClassName('testButtonSend');
+  var testTest = document.getElementById('push-story');
   if (testTest) {
-      testTest[0].addEventListener('click', appendStory);
+      testTest.addEventListener('click', appendStory);
   }
 
 });
