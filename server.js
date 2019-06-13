@@ -239,6 +239,28 @@ function storyPacketParser(storyObject, response)
 }
 
 
+function _topTenRequestResponseHelper(err,result,response)
+{
+    if (err) {
+        // error
+        ;
+    }
+
+    console.log(result);
+    response.status(200).send('success');
+}
+
+function _storyIdsRequestResponseHelper(err, result, response, numberOfElements)
+{
+    console.log(result);
+    response.status(200).send('success');
+}
+
+function _filtersRequestResponseHelper(err, result, response)
+{
+    console.log(result);
+    response.status(200).send('success');
+}
 
 function requestPacketParser(requestObject, response)
 {
@@ -248,22 +270,30 @@ function requestPacketParser(requestObject, response)
         {
             storiesCollection.find().sort({ storyUpvotes: -1 }).limit(10).toArray(function (err, result)
             {
-                if (err) {
-                    // error
-                    ;
-                }
-
-                console.log(result);
-
+                
+                _topTenRequestResponseHelper(err,result,response);
             });
         }
         else if (requestObject.storyIds)
         {
-            
+            numberOfElements = requestObject.storyIds.length;
+            // be safe and manually loop because we dont want foreach callback to break things because it can be finnicky when responding with status(x) to the client, or the client hangs.
+            for (var i = 0; i < requestObject.storyIds.length; i++)
+            {
+
+                // there is only one id for each object, appended objects are child objects to the main parents object for any given ID
+                storiesCollection.findOne({ storyId: requestObject.storyIds[i] }).toArray(function (err, result)
+                {
+                    _storyIdsRequestResponseHelper(err, result, response, numberOfElements);
+                    numberOfElements--;
+
+                });
+
+            }
         }
         else if (requestObject.filters)
         {
-            
+            console.log(requestObject.filters);
         }
     }
     else

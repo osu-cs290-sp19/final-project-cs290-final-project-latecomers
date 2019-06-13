@@ -78,7 +78,8 @@ function requestData(requestType, requestData)
 
 function appendStory(storyId, storyText, storyAuthor)
 {
-    var theObject = _constructStoryObject(1, 'append', 0, 'hello', 'sam', 0, 0);
+    var theObject = _constructStoryObject(storyId, 'append',0, 0, storyText, storyAuthor, 0, 0);
+
 
     var thePacket = _constructStoryPacket(theObject);
 
