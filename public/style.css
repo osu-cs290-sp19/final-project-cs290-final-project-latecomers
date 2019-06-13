@@ -272,20 +272,87 @@ a:focus {
             margin: 0px;
             text-align: justify;
         }
-		
+.start-story {
+  width: auto;
+  max-width: 600px;
+  min-width: 350px;
+  min-height: 300px;
+  margin: 40px auto;
+  background-color: #D4FCC3;
+  border-radius: 15px;
+}
+
+.start-head h2 {
+	padding: 10px;
+	margin: 0;
+	font-size: 28px;
+	text-align: center;
+}
+
+.start-body {
+  padding: 20px;
+}
+
+.input-element {
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  margin: 10px 0;
+}
+
+.input-element input,
+.input-element textarea {
+  flex: 6 200px;
+  padding: 8px;
+  font-size: 20px;
+  border: 1px solid #aaa;
+}
+
+.input-element textarea {
+  min-height: 64px;
+}
+
+.story-write {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 10px 20px 10px;
+}
+
+.story-write #story-push {
+  font-size: 20px;
+  background-color: #fff;
+  color: #333;
+  border: 1px solid #333;
+  border-radius: 5px;
+  padding: 10px;
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+
+.story-write #story-push {
+  background-color: #319df6;
+  color: #fff;
+  border-radius:50%;
+}
+
+.story-write #story-push:hover {
+  background-color: #087dde;
+}
+
 .error-container {
-  margin-top: 50px;
-  text-align: center;
+	margin-top: 50px;
+	text-align: center;
 }
 
 .error-container h2 {
-  margin: 10px 0;
-  font-size: 96px;
-  font-weight: 100;
+	margin: 10px 0;
+	font-size: 96px;
+	font-weight: 100;
 }
 
 .error-container h3 {
-  margin: 10px 0;
-  font-size: 36px;
-  font-weight: 400;
+	margin: 10px 0;
+	font-size: 36px;
+	font-weight: 400;
 }
