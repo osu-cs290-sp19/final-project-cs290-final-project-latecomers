@@ -27,15 +27,56 @@ function infiniteLoop()
                 for changes as the story system evolution progresses.
             */
 
-            // or screw that, just be slightly inefficient and send everything on the page being requested
+            // for now send ANY object to the client that has deltad in this timeStamp timeframe.
             
         }
     });
 
     setTimeout(infiniteLoop, x * 1000);
 }
-
 infiniteLoop();
+
+
+
+// request data from the server
+function requestData(request)
+{
+    var theObject = _constructRequestObject(request);
+
+    var thePacket = _constructRequestPacket(theObject);
+
+    _postJsonToPath(thePacket, '/DataUpload', function (event) {
+        if (event.target.status !== 200) {
+            console.log(event.target.response);
+            // error handling
+        }
+        else {
+            // do something
+            
+        }
+    });
+}
+
+
+function appendStory(storyId, storyText, storyAuthor)
+{
+    var theObject = _constructStoryObject(1, 'append', 0, "ok", 'no', 0, 0);
+
+    var thePacket = _constructStoryPacket(theObject);
+
+    _postJsonToPath(thePacket, '/DataUpload', function (event) {
+        if (event.target.status !== 200) {
+            console.log(event.target.response);
+            // error handling
+        }
+        else {
+            ;
+            console.log(event.target.response);
+            // do something
+        }
+    });
+
+}
 
 // 
 function createStory(storyText, storyAuthor)
@@ -54,15 +95,40 @@ function createStory(storyText, storyAuthor)
         }
         else {
             // server responded with success we are in the clear for dom insertion, we dont want stale dom nodes that dont exist on the server
+            console.log(event.target.response);
             var templateContext = { storyText: storyText, storyAuthor: storyAuthor };
             var twitHtml = Handlebars.templates.story(templateContext);
             twitContainer = document.getElementsByClassName("story-container");
             twitContainer[0].insertAdjacentHTML('beforeend', twitHtml);
-            console.log(event.target.response);
         }
     });
 
     
+}
+
+// all stories are public, there are no security concerns with users war dialing id's
+/*
+    example request
+
+    {
+        topTen: true,
+        storyIds: [4,5,2],
+        filters: [
+            storyText: 'string',
+            storyAuthor: 'string',
+            upVotes: {min: 12, max: 14}
+
+        ]
+
+    }
+*/
+function _constructRequestObject(request)
+{
+    var requestObject = {
+        request: request
+    };
+
+    return requestObject;
 }
 
 // the struct of the storyObject, all code that handles any storyObject should adhere to the structure of the object defined here
@@ -89,6 +155,12 @@ function _constructHeartBeatObject(timeStamp)
     };
 
     return heartBeatObject;
+}
+
+
+function _constructRequestPacket(request)
+{
+    return _constructPacket('requestPacket', request);
 }
 
 function _constructStoryPacket(storyObjectData)
@@ -365,7 +437,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
   var testTest = document.getElementsByClassName('testButtonSend');
   if (testTest) {
-      testTest[0].addEventListener('click', createStory);
+      testTest[0].addEventListener('click', appendStory);
   }
 
 });

@@ -36,6 +36,9 @@ app.use(bodyParser.json());
 const mongoClient = require('mongodb').MongoClient;
 const test = require('assert');
 
+// make our own events to create sync like behavior for database requests
+var events = require('events');
+
 /*
 var hostName = 'classmongo.engr.oregonstate.edu';
 MongoDB hostname: classmongo.engr.oregonstate.edu
@@ -45,28 +48,54 @@ Password: cs290_YOUR_ONID_ID(e.g.cs290_hessro)
 */
 
 
-/*
-var url = 'mongodb://cs290_bochslev:cs290_bochslev@classmongo.engr.oregonstate.edu:27017/cs290_bochslev'
-var mongoDataBase;
+
+var url = 'mongodb://cs290_bochslev:cs290_bochslev@classmongo.engr.oregonstate.edu:27017/cs290_bochslev';
+var mongoDB;
+var storiesCollection;
+var globalStoryId = 1;
 // Connect using MongoClient
 mongoClient.connect(url, function (err, client)
 {
     if (err) {
         throw err;
     }
-    mongoDataBase = client.db('cs290_bochslev');
+
+    mongoDB = client.db('cs290_bochslev');
     app.listen(3000, function () {
         console.log("== Server listening on port 3000");
     });
+
+    storiesCollection = mongoDB.collection('stories');
+    
+    storiesCollection.find().sort({storyId: -1}).limit(1).toArray(function (err, result) {
+        if (err)
+        {
+            // error
+            ;
+        }
+        
+        if (result[0])
+            globalStoryId = result[0].storyId + 1;
+        
+    });
+    
 });
 
-*/
+
 
 app.use(express.static('public'));
 
+/*
+    the array of incoming story changes, so the server can push the changes to clients without having to send them everything
 
-// there should be a way with express to get a client list?
-var clients = [];
+    each array element will be an object
+    {
+        storyId: storyId,
+        storyOperation: storyOperation,
+        timeStamp: timeStamp
+    }
+*/
+var deltaArray = [];
 
 // route chain below
 
@@ -111,17 +140,40 @@ app.get('/upload', function (req, res, next) {
 count = 0;
 
 // implement a temporary random user id?
-function heartBeatPacketParser(packetData)
+function heartBeatPacketParser(heartBeatObject, response)
 {
     count++;
-    console.log('heartbeeet');
+    //console.log('heartbeeet');
+    response.status(200).send((1) ? "success" : "error");
     return true;
 }
 
 
 // parse the packet for anything to do with story communications
 // I should be ashamed, this function should be shared between client and server but ive only found odd or hacky ways to have structs and share js files between server/client or even between different client js files...
-function storyPacketParser(storyObject)
+
+// increment each time. (when does this overflow?)
+//storiesCollection.find.toArray({ $max: "storyId" });
+
+
+
+function _appendCallbackHelper(err, result, storyObject, response)
+{
+    // if theres an error, no result, or the story has been ended return false.
+    if (err || !result[0] || result[0].stories[result[0].stories.length - 1].storyEnd) {
+        // error
+        response.status(500).send('server error');
+    }
+    else {
+        //console.log('rrrrrrrrr: ',response);
+        //console.log(result[0].stories[0].storyAuthor);
+        _appendStoryObjectMongo(storyObject, result[0]); // regular append
+        response.status(200).send('success');
+    }
+    //response.status(200).send('success');
+}
+
+function storyPacketParser(storyObject, response)
 {
     count++;
     console.log(storyObject.storyOperation);
@@ -133,33 +185,63 @@ function storyPacketParser(storyObject)
         // add an Id to the story object, add it to the database, and (session id's:? (know how long ago each user received updated DB information)) push the new story to the 'recent stories' view
         // upon processing an upvote it will reorder the stories based on popularity and give this information to clients.
 
-        switch (storyObject.storyOperation)
-        {
+        switch (storyObject.storyOperation) {
             case 'create':
+                storyObject.storyId = globalStoryId;
+                globalStoryId++;
+
                 _insertStoryObjectMongo(storyObject);
+
+                response.status(200).send('success');
                 break;
             case 'end':
-                _appendStoryObjectMongo(storyObject); // append like some null object, or special values object to indicate a story chain has been ended.
+                // have to check if the user can end the story or if the story is already ended
+
+                storiesCollection.find({ storyId: storyObject.storyId }).toArray(function (err, result) {
+                    _appendCallbackHelper(err, result, storyObject, response);
+
+                });
+
+                
                 break;
             case 'append':
-                // make sure the story chain is not finished before appending
-                _appendStoryObjectMongo(storyObject); // regular append 
+                // have to check if the user can append or if the story is ended
+
+                //storiesCollection.find({ storyId: storyObject.storyId }).toArray(function (err, result) {callback(err,result)});
+
+                storiesCollection.find({ storyId: storyObject.storyId }).toArray(function (err, result) {
+                    _appendCallbackHelper(err, result, storyObject, response);
+
+                });
+                
+                
                 break;
-            // who owns each story? I guess the server does now
+                // who owns each story? I guess the server does now
             case 'delete':
                 // every so often dump the oldest, least active stories?
                 _deleteStoryObjectMongo(storyObject);
+
+                res.status(200).send('success');
                 break;
                 // no default, it cannot exist after the packet has been verified
         }
+
+        
+        return true;
     }
-    else
+    else {
+        res.status(400).send('Bad Request!');
         console.log("parse fail");
-
-
-    return true;
+        return false;
+    }
 }
 
+
+
+function requestPacketParser(requestObject, response)
+{
+    res.status(200).send('success');
+}
 /*  mongo document structure
 
     storyId: 4
@@ -171,17 +253,26 @@ function storyPacketParser(storyObject)
 
     // stories[stories.length-1].
 */
-//
+
 
 function _insertStoryObjectMongo(storyObject)
 {
-
+    
+    storiesCollection.insertOne({
+        storyId: storyObject.storyId,
+        stories: [storyObject]
+    });
+    console.log('inner insert', storyObject.storyId);
 }
 
 
-function _appendStoryObjectMongo(storyObject)
+function _appendStoryObjectMongo(storyObject, parentObject)
 {
-    // if the last object has storyEnd: true
+    
+    storiesCollection.updateOne(
+        { storyId: parentObject.storyId },
+        { $push: { stories: storyObject } });
+    console.log('inner append', storyObject);
 }
 
 function _deleteStoryObjectMongo(storyObjectId)
@@ -189,6 +280,17 @@ function _deleteStoryObjectMongo(storyObjectId)
 
 }
 
+
+function _verifyRequestPacket(request)
+{
+    if (!request || !request.filters)
+        return false;
+
+    switch (request.filters)
+    {
+
+    }
+}
 
 // make sure the story packet the client sends actually makes sense, and they have the authorization to perform said action
 function _verifyStoryPacket(storyObject)
@@ -205,11 +307,11 @@ function _verifyStoryPacket(storyObject)
                 return false;
             break;
         case 'end':
-            if (!storyObject.storyId)
+            if (!storyObject.storyId || !storyObject.storyEnd)
                 return false;
             break;
-        case 'append':                                              // the client will receive current trending stories, etc etc and will need to bundle the Id to request an append
-            if (!storyObject.storyText || !storyObject.storyAuthor || !storyObject.storyId)
+        case 'append':                                                                  // globalStoryId == 1 signals that we dont have any objects to append too!
+            if (!storyObject.storyId || !storyObject.storyText || !storyObject.storyAuthor || globalStoryId == 1)
                 return false;
             break;
             // who owns each story?
@@ -228,7 +330,8 @@ function _verifyStoryPacket(storyObject)
 var packetTypes =
 {
          heartBeat: { 'function': heartBeatPacketParser } ,
-         storyPacket: { 'function': storyPacketParser } 
+         storyPacket: { 'function': storyPacketParser },
+         requestPacket: { 'function': requestPacketParser }
 };
 
 
@@ -244,18 +347,72 @@ app.post('/DataUpload', function (req, res)
         console.log(packetTypes[req.body.packetType]);
 
         console.log(packetTypes['heartbeat']);
+        res.status(400).send('Bad Request');
         return;
     }
 
 
     // call the appropriate parser depending on the packet type.
-    console.log('$%#^$%^*^&@$#%^&*)&*()^&*($%#^&@$%^$%&:    ', count);
+    //console.log('$%#^$%^*^&@$#%^&*)&*()^&*($%#^&@$%^$%&:    ', count);
 
 
-    // 
-    res.status(200).send( (packetTypes[tempField].function(req.body.packetData)) ? "success" : "error");
+   
+    packetTypes[tempField].function(req.body.packetData, res);
+
+
+    //var test = packetTypes[tempField].function(req.body.packetData, res);
+
+    //console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA ', test);
+
+    //res.status(200).send((packetTypes[tempField].function(req.body.packetData)) ? "success" : "error");
+
+    // return with success and a 200 status, indicating everything is fine, 
 
 });
+
+
+
+
+
+/*
+
+ //Step 1: declare promise
+      
+    var myPromise = () => {
+        return new Promise((resolve, reject) => {
+
+
+        
+            storiesCollection.find({ storyId: 1 }).toArray(function(err, data) {
+                 err 
+                    ? reject(err) 
+                    : resolve(data[0]);
+             });
+        });
+    };
+
+    //Step 2: async promise handler
+    var callMyPromise = async () => {
+          
+        var result = await (myPromise());
+        //anything here is executed after result is resolved
+        //console.log('ghghghghghghghgh',result[0]);
+        //if (result)
+            //res.status(200).send('success');
+        //else
+            //res.status(500).send('server error');
+
+        return result;
+    };
+ 
+    //Step 3: make the call
+    callMyPromise().then(function(result) {
+        res.status(200).send(result);
+    });
+
+*/
+
+
 
 app.post('/fileupload', function (req, res, next) {
     res.status(200).render('homePageView', { twits: dataBase });
@@ -287,6 +444,8 @@ app.get('*', function (req, res)
     res.status(404).render('404View');
 });
 
+/*
 app.listen(3000, function () {
     console.log("== Server listening on port 3000");
 });
+*/
