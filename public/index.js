@@ -78,7 +78,7 @@ function requestData(requestType, requestData)
 
 function appendStory(storyId, storyText, storyAuthor)
 {
-    var theObject = _constructStoryObject(1, 'append', 0, "ok", 'no', 0, 0);
+    var theObject = _constructStoryObject(1, 'append', 0, 'hello', 'sam', 0, 0);
 
     var thePacket = _constructStoryPacket(theObject);
 
@@ -479,9 +479,9 @@ window.addEventListener('DOMContentLoaded', function () {
     searchInput.addEventListener('input', doSearchUpdate);
   }
 
-  var testTest = document.getElementsByClassName('testButtonSend');
+  var testTest = document.getElementById('story-push');
   if (testTest) {
-      testTest[0].addEventListener('click', appendStory);
+      testTest.addEventListener('click', appendStory);
   }
 
 });
