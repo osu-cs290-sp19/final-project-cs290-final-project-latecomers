@@ -17,6 +17,10 @@ app.get('/', function (req, res) {
 	res.status(200).render('storyPage', {storyData});
 });
 
+app.get('/start', function (req, res) {
+	res.status(200).render('promptPage');
+});
+
 app.get('*', function (req, res) {
   res.status(404).render('404Page');
 });

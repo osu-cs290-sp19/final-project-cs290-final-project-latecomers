@@ -273,19 +273,34 @@ a:focus {
             text-align: justify;
         }
 		
+.prompt-head {
+	text-align: center;
+}
+.start-story ul {
+	list-style-type: none;	
+}
+.start-story li {
+	text-align: center;	
+}
+.prompt-input {
+	width: 1000px;
+	margin: 10px;
+	
+}
+
 .error-container {
-  margin-top: 50px;
-  text-align: center;
+	margin-top: 50px;
+	text-align: center;
 }
 
 .error-container h2 {
-  margin: 10px 0;
-  font-size: 96px;
-  font-weight: 100;
+	margin: 10px 0;
+	font-size: 96px;
+	font-weight: 100;
 }
 
 .error-container h3 {
-  margin: 10px 0;
-  font-size: 36px;
-  font-weight: 400;
+	margin: 10px 0;
+	font-size: 36px;
+	font-weight: 400;
 }
