@@ -190,6 +190,8 @@ function storyPacketParser(storyObject, response)
                 storyObject.storyId = globalStoryId;
                 globalStoryId++;
 
+                storyObject.storyDate = Date.now();
+
                 _insertStoryObjectMongo(storyObject);
 
                 response.status(200).send('success');
@@ -240,7 +242,36 @@ function storyPacketParser(storyObject, response)
 
 function requestPacketParser(requestObject, response)
 {
-    res.status(200).send('success');
+    if (_verifyRequestPacket(requestObject))
+    {
+        if (requestObject.topTen)
+        {
+            storiesCollection.find().sort({ storyUpvotes: -1 }).limit(10).toArray(function (err, result)
+            {
+                if (err) {
+                    // error
+                    ;
+                }
+
+                console.log(result);
+
+            });
+        }
+        else if (requestObject.storyIds)
+        {
+            
+        }
+        else if (requestObject.filters)
+        {
+            
+        }
+    }
+    else
+    {
+        response.status(400).send('Bad Request!');
+        console.log("parse fail");
+        return false;
+    }
 }
 /*  mongo document structure
 
@@ -280,15 +311,61 @@ function _deleteStoryObjectMongo(storyObjectId)
 
 }
 
-
-function _verifyRequestPacket(request)
+function _pullDataMongo(requestType, requestObject)
 {
-    if (!request || !request.filters)
+    switch (requestType)
+    {
+        case topTen:
+            storiesCollection.find
+            break;
+        case storyIds:
+
+            break;
+        case filters:
+
+            break;
+
+    }
+}
+
+// all stories are public, there are no security concerns with users war dialing id's
+/*
+    example request
+
+    mutually exclusive: choose either topTen, storyId, or filters.
+    {
+        topTen: true,
+        storyIds: [4,5,2],
+        filters: [
+            storyText: 'string',
+            storyAuthor: 'string',
+            upVotes: {min: 12, max: 14}
+
+        ]
+
+    }
+*/
+function _verifyRequestPacket(requestObject)
+{
+    if (!requestObject)
         return false;
 
-    switch (request.filters)
+    if (requestObject.topTen)
     {
-
+        return true;
+    }
+    else if (requestObject.storyIds)
+    {
+        // dont care if they aren't real id's, if the client makes a request and server finds nothing then send 400 bad request.
+        return true;
+    }
+    else if (requestObject.filters)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
     }
 }
 
