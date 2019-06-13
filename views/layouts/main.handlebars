@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <meta charset="utf-8">
+        <title>Storyboard (or something)</title>
+
+        <!-- We can choose a font family for our website and put it here. -->
+
+        <!-- This 3rd-party stylesheet incorporates SVG icons from Font Awesome: http://fontawesome.com/ -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" crossorigin="anonymous">
+
+        <link rel="stylesheet" href="style.css" media="screen">
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.runtime.js"></script>
+        <script src="/index.js" charset="utf-8" defer></script>
+
+    </head>
+
+    <a href="#"><h1 class="site-title"><i class="fas fa-feather-alt"></i> Storyboard</h1></a>
+
+    <body>
+        <header>
+          <nav class="navbar">
+            <ul class="navlist">
+              <li class="navitem navlink active"><a href="#"><i class="fas fa-home"></i><span id="link-text"> Home </span></a></li>
+              <li class="navitem navlink"><a href="#"><i class="fas fa-play"></i><span id="link-text"> Start </span></a></li>
+              <li class="navitem navlink"><a href="#"><i class="fas fa-pen-fancy"></i><span id="link-text"> Continue</span></a></li>
+              <li class="navitem navlink"><a href="#"><i class="fas fa-vote-yea"></i><span id="link-text"> Vote</span></a></li>
+              <li class="navitem navbar-search">
+                <input type="text" id="navbar-search-input" placeholder="Find a story...">
+                <button type="button" id="navbar-search-button"><i class="fas fa-search"></i></button>
+              </li>
+            </ul>
+          </nav>
+        </header>
+		
+			{{{body}}}
+			
+	</body>
+</html>
