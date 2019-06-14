@@ -193,7 +193,7 @@ app.get('/story/:storyId', function (req, res, next)
         }
         else {
             //assume the client has bad request
-            res.status(400).send('bad id!');
+            res.status(400).render('404Page');
         }
     });
 
