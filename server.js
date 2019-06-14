@@ -128,7 +128,8 @@ app.get('/', function (req, res)
             }
 
             res.status(200).render('storyPage', {
-                storyData: tempArray
+                storyData: tempArray,
+				sortStory: true
             });
         }
         else
@@ -183,7 +184,8 @@ app.get('/story/:storyId', function (req, res, next)
 
             
             res.status(200).render('storyPage', {
-                storyData: tempArray
+                storyData: tempArray,
+				sortStory: false
             });
             
 

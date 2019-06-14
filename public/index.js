@@ -457,12 +457,13 @@ window.addEventListener('DOMContentLoaded', function () {
       story.addEventListener('click', function() {
 	  var storyText = document.getElementById('text-input').value;
 	  var storyTitle = document.getElementById('title-input').value;
-	  if (storyText =="" || storyTitle =="" || storyText.trim().length == 0 || storyTitle.trim().length == 0) {
+	  var storyAuthor = document.getElementById('author-input').value;
+	  if (storyText =="" || storyTitle =="" || storyAuthor =="" ||storyText.trim().length == 0 || storyTitle.trim().length == 0 || storyAuthor.trim().length == 0) {
 		  window.alert("Both fields must have text");
 		  return;
 	  }
 	  else
-		createStory(storyText, '1', storyTitle );
+		createStory(storyText, storyAuthor, storyTitle );
   });
   }
 
