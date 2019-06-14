@@ -117,10 +117,7 @@ function createStory(storyText, storyAuthor, storyTitle)
         else {
             // server responded with success we are in the clear for dom insertion, we dont want stale dom nodes that dont exist on the server
             console.log(event.target.response);
-            var templateContext = { storyText: storyText, storyAuthor: storyAuthor };
-            var twitHtml = Handlebars.templates.story(templateContext);
-            twitContainer = document.getElementsByClassName("story-container");
-            twitContainer[0].insertAdjacentHTML('beforeend', twitHtml);
+			window.alert('Story was uploaded');
         }
     });
 
@@ -483,7 +480,15 @@ window.addEventListener('DOMContentLoaded', function () {
 
   var story = document.getElementById('story-push');
   if (story) {
-      story.addEventListener('click', createStory);
+      story.addEventListener('click', function() {
+	  var storyText = document.getElementById('text-input').value;
+	  var storyTitle = document.getElementById('title-input').value;
+	  if (storyText =="" || storyTitle =="" || storyText.trim().length == 0 || storyTitle.trim().length == 0) {
+		  window.alert("Both fields must have text");
+		  return;
+	  }
+	  else
+		createStory(storyText, '1', storyTitle );
+  });
   }
-
 });
