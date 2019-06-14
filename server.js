@@ -545,11 +545,15 @@ app.post('/fileupload', function (req, res, next) {
     });
 });
 
-
+app.get('/start', function(req, res) 
+{
+	console.log(req);
+	res.status(200).render('promptPage');
+});
 app.get('*', function (req, res)
 {
     console.log(req);
-    res.status(404).render('404View');
+    res.status(404).render('404Page');
 });
 
 /*

@@ -80,6 +80,7 @@ function appendStory(storyId, storyText, storyAuthor)
 {
     var theObject = _constructStoryObject(0,storyId, 'append',0, 0, storyText, storyAuthor, 0, 0);
 
+
     var thePacket = _constructStoryPacket(theObject);
 
     _postJsonToPath(thePacket, '/DataUpload', function (event) {
