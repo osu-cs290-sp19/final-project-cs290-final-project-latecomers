@@ -243,6 +243,18 @@ function _appendCallbackHelper(err, result, storyObject, response)
     //response.status(200).send('success');
 }
 
+_upVoteCallbackHelper(err, result, response)
+{
+    if (err || !result) {
+        // error
+        response.status(500).send('server error');
+    }
+    else {
+       
+        response.status(200).send('success');
+    }
+}
+
 function storyPacketParser(storyObject, response)
 {
     count++;
@@ -287,6 +299,12 @@ function storyPacketParser(storyObject, response)
                 });
                 
                 
+                break;
+
+            case 'upVote':
+                storiesCollection.updateOne({ storyId: storyObject.storyId },function (err, result) {
+                    _upVoteCallbackHelper(err,result,response);
+                });
                 break;
                 // who owns each story? I guess the server does now
             case 'delete':
@@ -500,6 +518,10 @@ function _verifyStoryPacket(storyObject)
             break;
         case 'append':                                                                  // globalStoryId == 1 signals that we dont have any objects to append too!
             if (!storyObject.storyId || !storyObject.storyText || !storyObject.storyAuthor || globalStoryId == 1)
+                return false;
+            break;
+        case 'upvote':
+            if (!storyObject.storyId)
                 return false;
             break;
             // who owns each story?

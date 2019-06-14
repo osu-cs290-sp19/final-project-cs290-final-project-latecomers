@@ -75,6 +75,24 @@ function requestData(requestType, requestData)
     });
 }
 
+function upVoteStory(storyId)
+{
+    var theObject = _constructStoryObject(0, storyId, 'upVote', 0, 0, 0, 0, 0, 0);
+
+    var thePacket = _constructStoryPacket(theObject);
+
+    _postJsonToPath(thePacket, '/DataUpload', function (event) {
+        if (event.target.status !== 200) {
+            console.log(event.target.response);
+            // error handling
+        }
+        else {
+            ;
+            console.log(event.target.response);
+            // do something
+        }
+    });
+}
 
 function appendStory(storyId, storyText, storyAuthor)
 {
