@@ -52,6 +52,10 @@ a:focus {
 	display: inline-block;
 }
 
+.story-title:hover {
+	cursor: pointer;
+}
+
 a:current{
 	box-shadow: inset 0 -3px #328441;
 }
