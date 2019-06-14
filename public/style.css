@@ -351,6 +351,29 @@ a:current{
   background-color: #087dde;
 }
 
+.story-write #story-append {
+  font-size: 20px;
+  background-color: #fff;
+  color: #333;
+  border: 1px solid #333;
+  border-radius: 5px;
+  padding: 10px;
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+
+.story-write #story-append {
+  font-size: 15px;
+  background-color: white;
+  color: black;
+  border-radius:50%;
+  cursor: pointer;
+}
+
+.story-write #story-append:hover {
+  background-color: #087dde;
+}
 .error-container {
 	margin-top: 50px;
 	text-align: center;
