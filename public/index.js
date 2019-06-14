@@ -491,4 +491,6 @@ window.addEventListener('DOMContentLoaded', function () {
 		createStory(storyText, '1', storyTitle );
   });
   }
+  var upvote = document.getElementsByClassName('fas fa-thumbs-up');
+  
 });
