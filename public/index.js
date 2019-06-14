@@ -78,7 +78,7 @@ function requestData(requestType, requestData)
 
 function appendStory(storyId, storyText, storyAuthor)
 {
-    var theObject = _constructStoryObject(storyId, 'append',0, 0, storyText, storyAuthor, 0, 0);
+    var theObject = _constructStoryObject(0,storyId, 'append',0, 0, storyText, storyAuthor, 0, 0);
 
     var thePacket = _constructStoryPacket(theObject);
 
@@ -97,13 +97,13 @@ function appendStory(storyId, storyText, storyAuthor)
 }
 
 // 
-function createStory(storyText, storyAuthor)
+function createStory(storyText, storyAuthor, storyTitle)
 {
    
     //var currentTimeStamp = Date.now();
 
     // damn javascript where are my structs IN SEPARATE FILES, oh well a project this small just make sure the values match on client/server
-    var theObject = _constructStoryObject(0,'create',0,0,storyText, storyAuthor, 0, 0);
+    var theObject = _constructStoryObject(storyTitle,0,'create',0,0,storyText, storyAuthor, 0, 0);
     
     var thePacket = _constructStoryPacket(theObject);
 
@@ -175,9 +175,10 @@ function _constructRequestObject(requestType, requestData)
 }
 
 // the struct of the storyObject, all code that handles any storyObject should adhere to the structure of the object defined here
-function _constructStoryObject(storyId, storyOperation, storyUpvotes, storyDate, storyText, storyAuthor, storyImage, storyEnd)
+function _constructStoryObject(storyTitle, storyId, storyOperation, storyUpvotes, storyDate, storyText, storyAuthor, storyImage, storyEnd)
 {
     var storyObject = {
+        storyTitle: storyTitle,
         storyId: storyId,// set by the server to manage all the stories
         storyOperation: storyOperation, // useless outside the context of performing an action on an object
         storyUpvotes: storyUpvotes,
@@ -479,9 +480,9 @@ window.addEventListener('DOMContentLoaded', function () {
     searchInput.addEventListener('input', doSearchUpdate);
   }
 
-  var testTest = document.getElementsByClassName('testButtonSend');
-  if (testTest) {
-      testTest[0].addEventListener('click', appendStory);
+  var story = document.getElementById('story-push');
+  if (story) {
+      story.addEventListener('click', createStory);
   }
 
 });

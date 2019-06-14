@@ -410,7 +410,7 @@ function _verifyStoryPacket(storyObject)
     switch (storyObject.storyOperation)
     {
         case 'create':
-            if (!storyObject.storyText || !storyObject.storyAuthor)
+            if (!storyObject.storyText || !storyObject.storyAuthor || !storyObject.storyTitle)
                 return false;
             break;
         case 'end':
