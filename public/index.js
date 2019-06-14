@@ -94,10 +94,10 @@ function upVoteStory(storyId)
     });
 }
 
-function appendStory(storyId, storyText, storyAuthor)
+function appendStory(storyId, storyText, storyAuthor, storyTitle)
 {
-    var theObject = _constructStoryObject(0,storyId, 'append',0, 0, storyText, storyAuthor, 0, 0);
-
+    var theObject = _constructStoryObject(storyTitle, storyId, 'append',0, 0, storyText, storyAuthor, 0, 0);
+ 
 
     var thePacket = _constructStoryPacket(theObject);
 
