@@ -331,4 +331,26 @@ window.addEventListener('DOMContentLoaded', function () {
 	         });
 	  } // end for
   }
+  var theStory = document.getElementsByClassName('theStory');
+  
+  if (theStory) {
+      for (let i = 0; i < theStory.length; i++)
+      {
+          var append = theStory[i].getElementsByClassName('fas fa-pen-fancy');
+          var tempId = theStory[i].getElementsByClassName("hidden-id");
+		  
+	      append[0].addEventListener('click', function (event)
+	      {
+	          event.target.style.color = "blue";
+
+	          var tempTemp = event.target.parentNode.parentNode.getElementsByClassName("hidden-id");
+	          
+	          var urlId = (tempTemp[0].textContent);
+			  console.log(urlId);
+			  var goToUrl = "http://localhost:3000/append/"+urlId;
+			  console.log(goToUrl);
+			  window.location.assign(goToUrl);
+	         });
+	  } // end for
+  }
 });
