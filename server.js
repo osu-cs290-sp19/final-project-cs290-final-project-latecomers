@@ -626,32 +626,6 @@ app.post('/DataUpload', function (req, res)
 
 */
 
-
-
-app.post('/fileupload', function (req, res, next) {
-    res.status(200).render('homePageView', { twits: dataBase });
-    // redirect to home, todo: remove /fileupload from url?
-    var form = new formidable.IncomingForm();
-
-    form.parse(req, function (err, fields, files) {
-
-        console.log("file parsed: ", files.uploadedFile);
-
-        var oldpath = files.uploadedFile.path;
-        var newpath = serverUploadPath + files.uploadedFile.name;
-        fs.copyFile(oldpath, newpath, function (err)
-        {
-            if (err)
-                console.log('error uploading');
-            else
-                console.log('File uploaded and moved!');
-            
-        });
-
-        // let client know their file has been parsed with a ping
-    });
-});
-
 app.get('/start', function(req, res)
 {
     res.status(200).render('promptPage');
