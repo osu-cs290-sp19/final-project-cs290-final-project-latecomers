@@ -243,7 +243,7 @@ function _appendCallbackHelper(err, result, storyObject, response)
     //response.status(200).send('success');
 }
 
-_upVoteCallbackHelper(err, result, response)
+function _upVoteCallbackHelper(err, result, response)
 {
     if (err || !result) {
         // error
@@ -301,10 +301,13 @@ function storyPacketParser(storyObject, response)
                 
                 break;
 
-            case 'upVote':
-                storiesCollection.updateOne({ storyId: storyObject.storyId },function (err, result) {
-                    _upVoteCallbackHelper(err,result,response);
-                });
+            case 'upvote':
+                console.log();
+                var asdf = storiesCollection.updateOne({ storyId: storyObject.storyId }, { $inc: { storyUpvotes: 1 } });
+                console.log('upvote',asdf);
+                //function (err, result) {
+                  //  _upVoteCallbackHelper(err,result,response);
+                //});
                 break;
                 // who owns each story? I guess the server does now
             case 'delete':
@@ -420,6 +423,7 @@ function _insertStoryObjectMongo(storyObject)
     
     storiesCollection.insertOne({
         storyId: storyObject.storyId,
+        storyUpvotes: 0,
         stories: [storyObject]
     });
     console.log('inner insert', storyObject.storyId);

@@ -77,7 +77,7 @@ function requestData(requestType, requestData)
 
 function upVoteStory(storyId)
 {
-    var theObject = _constructStoryObject(0, storyId, 'upVote', 0, 0, 0, 0, 0, 0);
+    var theObject = _constructStoryObject(0, storyId, 'upvote', 0, 0, 0, 0, 0, 0);
 
     var thePacket = _constructStoryPacket(theObject);
 
@@ -506,12 +506,30 @@ window.addEventListener('DOMContentLoaded', function () {
   }
 
 
-  var upvote = document.getElementsByClassName('fas fa-thumbs-up');
-  if (upvote) {
-	  for (let i = 0; i < upvote.length; i++) {  
-		upvote[i].addEventListener('click', function() {
-			upvote[i].style.color = "blue";
-	  });
-	  }
+  var theStory = document.getElementsByClassName('theStory');
+  console.log('thestory: ',theStory);
+  
+  if (theStory) {
+      for (let i = 0; i < theStory.length; i++)
+      {
+          var upvote = theStory[i].getElementsByClassName('fas fa-thumbs-up');
+          var tempId = theStory[i].getElementsByClassName("hidden-id");
+
+          //console.log('theupvote: ', upvote);
+          //console.log('thetempid: ', tempId[0].textContent);
+
+	      upvote[0].addEventListener('click', function (event)
+	      {
+	          console.log(event);
+	          event.target.style.color = "blue";
+              
+	          console.log('parent: ', event.target.parentNode.parentNode);
+
+	          var tempTemp = event.target.parentNode.parentNode.getElementsByClassName("hidden-id");
+	          
+	          upVoteStory(parseInt(tempTemp[0].textContent, 10));
+	          //upVoteStory();
+	         });
+	  } // end for
   }
 });
