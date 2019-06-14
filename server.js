@@ -685,7 +685,7 @@ app.get('/append/:storyId', function (req, res)
         }
         else {
             //assume the client has bad request
-            res.status(400).send('bad id!');
+            res.status(400).render('404Page');
         }
     });
 });

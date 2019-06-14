@@ -94,10 +94,10 @@ function upVoteStory(storyId)
     });
 }
 
-function appendStory(storyId, storyText, storyAuthor)
+function appendStory(storyId, storyText, storyAuthor, storyTitle)
 {
-    var theObject = _constructStoryObject(0,storyId, 'append',0, 0, storyText, storyAuthor, 0, 0);
-
+    var theObject = _constructStoryObject(storyTitle, storyId, 'append',0, 0, storyText, storyAuthor, 0, 0);
+ 
 
     var thePacket = _constructStoryPacket(theObject);
 
@@ -477,7 +477,7 @@ window.addEventListener('DOMContentLoaded', function () {
 	  var storyTitle = document.getElementById('title-input').value;
 	  var storyAuthor = document.getElementById('author-input').value;
 	  if (storyText =="" || storyTitle =="" || storyAuthor =="" ||storyText.trim().length == 0 || storyTitle.trim().length == 0 || storyAuthor.trim().length == 0) {
-		  window.alert("Both fields must have text");
+		  window.alert("All fields must have text");
 		  return;
 	  }
 	  else
@@ -490,9 +490,10 @@ window.addEventListener('DOMContentLoaded', function () {
   if (append) {
       append.addEventListener('click', function () {
           var storyText = document.getElementById('text-input').value;
+		  var storyTitle = document.getElementById('title-input').value;
           var storyAuthor = document.getElementById('author-input').value;
-          if (storyText == "" || storyAuthor == "" || storyText.trim().length == 0 || storyAuthor.trim().length == 0) {
-              window.alert("Both fields must have text");
+          if (storyText =="" || storyTitle =="" || storyAuthor =="" ||storyText.trim().length == 0 || storyTitle.trim().length == 0 || storyAuthor.trim().length == 0) {
+              window.alert("All fields must have text");
               return;
           }
           else {
@@ -500,7 +501,8 @@ window.addEventListener('DOMContentLoaded', function () {
               var splitItems = window.location.href.split('/');
               var id = parseInt(splitItems[splitItems.length - 1], 10);
               //window.location.href[window.location.href.length - 1];
-              appendStory(id, storyText, storyAuthor);
+              appendStory(id, storyText, storyAuthor, storyTitle);
+			  window.alert('Story was updated. Refresh to see your changes');
           }
       });
   }
