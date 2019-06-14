@@ -94,10 +94,10 @@ function upVoteStory(storyId)
     });
 }
 
-function appendStory(storyId, storyText, storyAuthor)
+function appendStory(storyId, storyText, storyAuthor, storyTitle)
 {
-    var theObject = _constructStoryObject(0,storyId, 'append',0, 0, storyText, storyAuthor, 0, 0);
-
+    var theObject = _constructStoryObject(storyTitle, storyId, 'append',0, 0, storyText, storyAuthor, 0, 0);
+ 
 
     var thePacket = _constructStoryPacket(theObject);
 
@@ -501,7 +501,7 @@ window.addEventListener('DOMContentLoaded', function () {
               var splitItems = window.location.href.split('/');
               var id = parseInt(splitItems[splitItems.length - 1], 10);
               //window.location.href[window.location.href.length - 1];
-              appendStory(id, storyText, storyAuthor);
+              appendStory(id, storyText, storyAuthor, storyTitle);
 			  window.alert('Story was updated. Refresh to see your changes');
           }
       });
