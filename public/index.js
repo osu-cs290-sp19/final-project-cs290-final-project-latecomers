@@ -465,6 +465,28 @@ window.addEventListener('DOMContentLoaded', function () {
 		createStory(storyText, '1', storyTitle );
   });
   }
+
+
+  var append = document.getElementById('story-append');
+  if (append) {
+      append.addEventListener('click', function () {
+          var storyText = document.getElementById('text-input').value;
+          var storyAuthor = document.getElementById('author-input').value;
+          if (storyText == "" || storyAuthor == "" || storyText.trim().length == 0 || storyAuthor.trim().length == 0) {
+              window.alert("Both fields must have text");
+              return;
+          }
+          else {
+              //console.log(window.location.href);
+              var splitItems = window.location.href.split('/');
+              var id = parseInt(splitItems[splitItems.length - 1], 10);
+              //window.location.href[window.location.href.length - 1];
+              appendStory(id, storyText, storyAuthor);
+          }
+      });
+  }
+
+
   var upvote = document.getElementsByClassName('fas fa-thumbs-up');
   if (upvote) {
 	  for (let i = 0; i < upvote.length; i++) {  
@@ -473,5 +495,4 @@ window.addEventListener('DOMContentLoaded', function () {
 	  });
 	  }
   }
-  var 
 });

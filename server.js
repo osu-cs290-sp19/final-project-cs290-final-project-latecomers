@@ -624,11 +624,44 @@ app.post('/fileupload', function (req, res, next) {
     });
 });
 
-app.get('/start', function(req, res) 
+app.get('/start', function(req, res)
 {
-	//console.log(req);
-	res.status(200).render('promptPage');
+    res.status(200).render('promptPage');
 });
+
+app.get('/append/:storyId', function (req, res)
+{
+    var theStoryId = parseInt(req.params.storyId, 10);
+
+
+    storiesCollection.findOne({ storyId: theStoryId }, function (err, result) {
+        if (err) {
+            // error
+            ;
+        }
+        
+        if (result) {
+            var tempArray = [];
+
+            for (var i = 0; i < result.stories.length; i++) {
+                tempArray.push(result.stories[i]);
+            }
+
+            //dirty
+            res.status(200).render('appendPage', {
+                storyData: tempArray
+            });
+
+
+            //res.status(200).send('fdfdv');
+        }
+        else {
+            //assume the client has bad request
+            res.status(400).send('bad id!');
+        }
+    });
+});
+
 app.get('*', function (req, res)
 {
     //console.log(req);
