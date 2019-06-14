@@ -442,32 +442,6 @@ function parseTwitElem(twitElem) {
  */
 window.addEventListener('DOMContentLoaded', function () {
 
-  // Remember all of the existing twits in an array that we can use for search.
-  var twitElemsCollection = document.getElementsByClassName('twit');
-  for (var i = 0; i < twitElemsCollection.length; i++) {
-    allTwits.push(parseTwitElem(twitElemsCollection[i]));
-  }
-
-  var createTwitButton = document.getElementById('create-twit-button');
-  if (createTwitButton) {
-    createTwitButton.addEventListener('click', showInsertDataInterface);
-  }
-
-  var modalCloseButton = document.querySelector('#create-twit-modal .modal-close-button');
-  if (modalCloseButton) {
-    modalCloseButton.addEventListener('click', hideInsertDataInterface);
-  }
-
-  var modalCancalButton = document.querySelector('#create-twit-modal .modal-cancel-button');
-  if (modalCancalButton) {
-      modalCancalButton.addEventListener('click', hideInsertDataInterface);
-  }
-
-  var modalAcceptButton = document.querySelector('#create-twit-modal .modal-accept-button');
-  if (modalAcceptButton) {
-    modalAcceptButton.addEventListener('click', handleModalAcceptClick);
-  }
-
   var searchButton = document.getElementById('navbar-search-button');
   if (searchButton) {
     searchButton.addEventListener('click', doSearchUpdate);
@@ -492,5 +466,12 @@ window.addEventListener('DOMContentLoaded', function () {
   });
   }
   var upvote = document.getElementsByClassName('fas fa-thumbs-up');
-  
+  if (upvote) {
+	  for (let i = 0; i < upvote.length; i++) {  
+		upvote[i].addEventListener('click', function() {
+			upvote[i].style.color = "blue";
+	  });
+	  }
+  }
+  var 
 });
