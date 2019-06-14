@@ -501,7 +501,7 @@ window.addEventListener('DOMContentLoaded', function () {
               var splitItems = window.location.href.split('/');
               var id = parseInt(splitItems[splitItems.length - 1], 10);
               //window.location.href[window.location.href.length - 1];
-              appendStory(id, storyText, storyAuthor);
+              appendStory(id, storyText, storyAuthor, storyTitle);
 			  window.alert('Story was updated. Refresh to see your changes');
           }
       });
