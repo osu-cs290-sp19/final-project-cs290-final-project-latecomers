@@ -112,9 +112,32 @@ app.post('*', function (req, res, next)
 app.get('/', function (req, res)
 {
       
-    res.status(200).render('storyPage', {
-     twits: 'nothing'
-      });
+
+
+    storiesCollection.find().sort({ storyId: -1 }).limit(10).toArray(function (err, result) {
+        if (err) {
+            // error
+            ;
+        }
+        console.log(result);
+        if (result)
+        {
+            var tempArray = [];
+
+            for (var i = 0; i < result.length; i++)
+            {
+                tempArray.push(result[i].stories[0]);
+            }
+
+            res.status(200).render('storyPage', {
+                storyData: tempArray
+            });
+        }
+    });
+
+
+
+    
    
 });
 
@@ -238,23 +261,33 @@ function storyPacketParser(storyObject, response)
     }
 }
 
+storyResponseArray = [];
 
 function _topTenRequestResponseHelper(err,result,response)
 {
     if (err) {
         // error
-        ;
+        response.status(500).send('success');
     }
 
     console.log(result);
-    response.status(200).send('success');
+    response.status(200).send(result);
 }
 
 function _storyIdsRequestResponseHelper(err, result, response, numberOfElements)
 {
     console.log(result);
-    response.status(200).send('success');
+    storyResponseArray.push(result);
+    // if == 1 then this is the last call in the array, respond to the client
+    if (numberOfElements == 1)
+    {
+        response.status(200).send(storyResponseArray);
+    }
+
+
 }
+
+
 
 function _filtersRequestResponseHelper(err, result, response)
 {
@@ -294,6 +327,7 @@ function requestPacketParser(requestObject, response)
         else if (requestObject.filters)
         {
             console.log(requestObject.filters);
+            //_filtersRequestResponseHelper();
         }
     }
     else
@@ -547,12 +581,12 @@ app.post('/fileupload', function (req, res, next) {
 
 app.get('/start', function(req, res) 
 {
-	console.log(req);
+	//console.log(req);
 	res.status(200).render('promptPage');
 });
 app.get('*', function (req, res)
 {
-    console.log(req);
+    //console.log(req);
     res.status(404).render('404Page');
 });
 
