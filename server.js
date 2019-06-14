@@ -112,8 +112,6 @@ app.post('*', function (req, res, next)
 app.get('/', function (req, res)
 {
       
-
-
     storiesCollection.find().sort({ storyId: -1 }).limit(10).toArray(function (err, result) {
         if (err) {
             // error
@@ -133,23 +131,70 @@ app.get('/', function (req, res)
                 storyData: tempArray
             });
         }
+        else
+        {
+            res.status(500).send('server error');
+        }
     });
 
-
-
-    
-   
 });
 
-app.get('/twits/:twitId', function (req, res, next) {
-    var twitId = req.params.twitId;
-    if (dataBase[twitId]) {
-        res.render('twitView', {
-            theTwit: dataBase[twitId]
-        });
-    } else {
-        next();
+function _getFullStoryHelper(err, result, response)
+{
+    if (err) {
+        // error
+        ;
     }
+    console.log('single story page view: ', result);
+    if (result) {
+        var tempArray = [];
+
+        for (var i = 0; i < result.stories.length; i++) {
+            tempArray.push(result.stories[i]);
+        }
+
+        response.status(200).render('viewFullStoryPage', {
+            storyData: tempArray
+        });
+    }
+    else {
+        //assume the client has bad request
+        response.status(400).send('bad id!');
+    }
+}
+
+app.get('/story/:storyId', function (req, res, next)
+{
+    var theStoryId = parseInt(req.params.storyId,10);
+    
+
+    storiesCollection.findOne({storyId: theStoryId},function (err, result) {
+        if (err) {
+            // error
+            ;
+        }
+        console.log('single story page view: ', result);
+        if (result) {
+            var tempArray = [];
+
+            for (var i = 0; i < result.stories.length; i++) {
+                tempArray.push(result.stories[i]);
+            }
+
+            
+            res.status(200).render('storyPage', {
+                storyData: tempArray
+            });
+            
+
+            //res.status(200).send('fdfdv');
+        }
+        else {
+            //assume the client has bad request
+            res.status(400).send('bad id!');
+        }
+    });
+
 });
 
 app.get('/upload', function (req, res, next) {

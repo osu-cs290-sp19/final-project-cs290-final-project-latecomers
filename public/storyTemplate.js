@@ -13,6 +13,6 @@ templates['story'] = template({"compiler":[7,">= 4.0.0"],"main":function(contain
     + alias4(((helper = (helper = helpers.storyText || (depth0 != null ? depth0.storyText : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"storyText","hash":{},"data":data}) : helper)))
     + "</p>\r\n 		 \r\n		 <p> "
     + alias4(((helper = (helper = helpers.storyDate || (depth0 != null ? depth0.storyDate : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"storyDate","hash":{},"data":data}) : helper)))
-    + " </p>\r\n		\r\n		\r\n\r\n                </div>";
+    + " </p>\r\n		\r\n		\r\n\r\n         </div>";
 },"useData":true});
 })();
