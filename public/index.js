@@ -354,18 +354,18 @@ window.addEventListener('DOMContentLoaded', function () {
 	  } // end for
   }
   
-  var theStory = document.getElementsByClassName('theStory');
-  if (theStory) {
-      for (let i = 0; i < theStory.length; i++)
+  var theStory1 = document.getElementsByClassName('theStory');
+  if (theStory1) {
+      for (let i = 0; i < theStory1.length; i++)
       {
-          var storyLocation = theStory[i].getElementsByClassName('story-title');
-          var tempId = theStory[i].getElementsByClassName("hidden-id");
+          var storyLocation = theStory1[i].getElementsByClassName('story-title');
+          var tempId = theStory1[i].getElementsByClassName("hidden-id");
 		  
 	      storyLocation[0].addEventListener('click', function (event)
 	      {
 	          event.target.style.color = "blue";
 
-	          var tempTemp = event.target.parentNode.parentNode.getElementsByClassName("hidden-id");
+	          var tempTemp = event.target.parentNode.getElementsByClassName("hidden-id");
 	          
 	          var urlId = (tempTemp[0].textContent);
 			  var goToUrl = "http://localhost:3000/story/"+urlId;
