@@ -1,4 +1,5 @@
         <div class="flexcontainer">
+		{{#if sortStory}}
             <div class="filter-box">
                 <div class="content-box" id = "sort-box">
                     <p class = "box-title">Sorted by:
@@ -11,6 +12,7 @@
                     </p>
                 </div>
             </div>
+			{{/if}}
 
 			<div id="story-container"> 
 				{{#each storyData}} 
