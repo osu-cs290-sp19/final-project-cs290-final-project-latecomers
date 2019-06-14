@@ -243,7 +243,7 @@ function _appendCallbackHelper(err, result, storyObject, response)
     //response.status(200).send('success');
 }
 
-_upVoteCallbackHelper(err, result, response)
+function _upVoteCallbackHelper(err, result, response)
 {
     if (err || !result) {
         // error
@@ -681,7 +681,7 @@ app.get('/append/:storyId', function (req, res)
         }
         else {
             //assume the client has bad request
-            res.status(400).send('bad id!');
+            res.status(400).render('404Page');
         }
     });
 });
