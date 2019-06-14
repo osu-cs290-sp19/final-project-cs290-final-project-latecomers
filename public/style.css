@@ -203,15 +203,6 @@ a:focus {
             margin: 0px 0px 10px 0px;
         }
 
-        .taglist {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            margin: 0px;
-            padding: 0px;
-            font-size: 20px;
-        }
-
         .taglist > .toggle-button {
             font-size: 16px;
         }
@@ -223,6 +214,8 @@ a:focus {
 
     .story-box {
         position: relative;
+		overflow: auto;
+		word-wrap: break-word;
     }
 
     .story-title {
@@ -253,6 +246,10 @@ a:focus {
         right: 45px;
         font-size: 20px;
     }
+	
+	.story-snippet {
+		padding-top: 12px;
+	}
 
     ul {
         padding: 0;
